@@ -1,1 +1,2 @@
-# bag
+Bags (aka multisets) for OCaml.
+

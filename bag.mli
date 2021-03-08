@@ -61,7 +61,7 @@ end) : sig
        It returns 0 when [x] is not in [b]. *)
 
   val mem: elt -> t -> bool
-  (** [mem x b] checks whether [x] belongs to [b], i.e. has a multiplicty
+  (** [mem x b] checks whether [x] belongs to [b], i.e. has a multiplicity
       greater than 0. *)
 
   val add: elt -> ?mult:int -> t -> t

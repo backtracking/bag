@@ -18,19 +18,19 @@ let () =
   assert (B.elements a = [1,1; 2,2; 3,3]);
   assert (B.min_elt a = (1,1));
   assert (B.max_elt a = (3,3));
-  let f _ = 1 in
-  assert (B.cardinal (B.map f a) = 3);
-  assert (B.cardinal (B.map f b) = 3);
+  let f _ _ = 1 in
+  assert (B.cardinal (B.filter_map f a) = 3);
+  assert (B.cardinal (B.filter_map f b) = 3);
   let e = B.filter (fun x _ -> x mod 2 = 0) a in
   assert (B.min_elt e = (2,2));
   assert (B.max_elt e = (2,2));
   assert (B.choose e = (2,2));
   assert (B.cardinal e = 2);
   let o =
-    B.filter (fun x _ -> x mod 2 = 1) b in
-  assert (B.min_elt o = (1,4));
-  assert (B.max_elt o = (3,6));
-  assert (B.cardinal o = 10);
+    B.filter_map (fun x m -> if x mod 2 = 1 then 2*m else 0) b in
+  assert (B.min_elt o = (1,8));
+  assert (B.max_elt o = (3,12));
+  assert (B.cardinal o = 20);
   ()
 
 let test n =

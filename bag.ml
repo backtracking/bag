@@ -143,6 +143,13 @@ end) = struct
   let filter =
     M.filter
 
+  let filter_map f =
+    let f x n = match f x n with
+      | m when m < 0 -> invalid_arg "filter_map"
+      | 0 -> None
+      | m -> Some m in
+    M.filter_map f
+
   let partition =
     M.partition
 

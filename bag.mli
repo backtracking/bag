@@ -26,10 +26,12 @@
     Similarly, the polymorphic hash function [Hashtbl.hash] must not be
     used on bags. If one intends to use bags as hash table heys, a suitable
     hash function must be defined, with something like
-    {|
+
+    {[
       let hash b =
         fold (fun x n h -> 5003 * (5003 * h + hash x) + n) b 0
-    |}
+    ]}
+
     where [hash] is a suitable hash function for the bag elements.
 *)
 
@@ -256,4 +258,3 @@ end) : sig
       Raises [Invalid_argument] if a multiplicity is negative. *)
 
 end
-

@@ -1,5 +1,5 @@
 
-module I = struct include Int let hash x = x end
+module I = struct type t = int let compare = Stdlib.compare end
 
 module B = Bag.Make(I)
 

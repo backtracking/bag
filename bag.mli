@@ -180,12 +180,6 @@ end) : sig
   (** [filter p b] returns the bag with all the elements in [b] that satisfy
        predicate [p]. Multiplicities are unchanged. *)
 
-  val filter_map: (elt -> int -> int) -> t -> t
-  (** [filter_map f b] applies the function [f] to every element of [b],  and
-       builds a bag from the results. For each element [x] with multiplicity
-       [m] in the bag [b], [x] has multiplicity [f x m] in the result.
-       Raises [Invalid_argument] if [f x m < 0]. *)
-
   val partition: (elt -> int -> bool) -> t -> t * t
   (** [partition p b] returns a pair of bags [(b1, b2)], where
       [b1] contains all the elements of [b] that satisfy the

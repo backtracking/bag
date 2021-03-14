@@ -3,6 +3,8 @@ module I = struct type t = int let compare = Stdlib.compare end
 
 module B = Bag.Make(I)
 
+let print = B.print Format.pp_print_int
+
 let () =
   let a = B.add 1 ~mult:1 (B.add 2 ~mult:2 (B.add 3 ~mult:3 B.empty)) in
   let b = B.add 1 ~mult:4 (B.add 2 ~mult:5 (B.add 3 ~mult:6 B.empty)) in
@@ -62,3 +64,22 @@ let test n =
 
 let () =
   for n = 0 to 10 do test (10 * n) done
+
+(* division *)
+
+let () = Random.init 42
+
+let test n =
+  let b1 = ref B.empty in
+  let b2 = ref B.empty in
+  for i = 0 to n-1 do
+    b1 := B.add ~mult:(Random.int 10) i !b1;
+    b2 := B.add ~mult:(Random.int  3) i !b2
+  done;
+  let q, r = B.div !b1 !b2 in
+  (* Format.printf "b1 = %a / b2 = %a@." print !b1 print !b2;
+   * Format.printf "q = %d / r = %a@." q print r; *)
+  assert (B.equal !b1 (B.sum (B.mul !b2 q) r))
+
+let () =
+  for n = 0 to 10 do test n done

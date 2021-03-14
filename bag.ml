@@ -13,12 +13,6 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(* TODO
-   - suggested by SpiceGuid on discuss.ocaml.org:
-     - val mul : t -> int -> t
-     - val div : t -> t -> (int * t)
-*)
-
 module Make(X: sig
   type t
   val compare: t -> t -> int
@@ -169,12 +163,33 @@ end) = struct
     M.find_last_opt
 
   let map f =
-    let f m = let m = f m in if m < 0 then invalid_arg "map"; m in
+    let f m = let m = f m in if m <= 0 then invalid_arg "map"; m in
     M.map f
 
   let mapi f =
-    let f x m = let m = f x m in if m < 0 then invalid_arg "mapi"; m in
+    let f x m = let m = f x m in if m <= 0 then invalid_arg "mapi"; m in
     M.mapi f
+
+  let mul b n =
+    if n < 0 then invalid_arg "mul";
+    if n = 0 then empty else map (fun m -> m * n) b
+
+  let div b1 b2 =
+    if is_empty b2 then 0, b1 else
+    try
+      let update x m1 q =
+        let m2 = occ x b2 in
+        if m2 = 0 || m2 > m1 then raise Exit;
+        min q (m1 / m2) in
+      let q = fold update b1 max_int in
+      assert (q > 0);
+      let remainder x m1 r =
+        let mult = m1 - q * occ x b2 in
+        add ~mult x r in
+      let r = fold remainder b1 empty in
+      q, r
+    with Exit ->
+      0, b1
 
   let compare =
     M.compare Stdlib.compare
@@ -193,5 +208,15 @@ end) = struct
 
   let of_seq s =
     add_seq s empty
+
+  let print print_elt fmt b =
+    Format.fprintf fmt "{@[";
+    let first = ref true in
+    iter (fun x m ->
+        if not !first then Format.fprintf fmt ",";
+        first := false;
+        Format.fprintf fmt "@ %a:%d" print_elt x m) b;
+    if not !first then Format.fprintf fmt " ";
+    Format.fprintf fmt "@]}"
 
 end

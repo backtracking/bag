@@ -63,7 +63,7 @@ end) : sig
 
   val occ: elt -> t -> int
   (** [occ x b] is the number of occurrences of [x] in bag [b].
-       It returns 0 when [x] is not in [b]. *)
+      It returns 0 when [x] is not in [b]. *)
 
   val mem: elt -> t -> bool
   (** [mem x b] checks whether [x] belongs to [b], i.e. has a multiplicity
@@ -147,6 +147,15 @@ end) : sig
   (** [sum b1 b2] returns a new bag [b] where, for all element x,
       [occ x b = occ x b1 + occ x b2]. *)
 
+  val mul: t -> int -> t
+  (** [mul b n] returns a new bag [b'] where, for all element x,
+      [occ x b' = occ x b * n].
+      Raises [Invalid_argument] if [n] is negative. *)
+
+  val div: t -> t -> int * t
+  (** [div b1 b2] returns a pair [q, r] such that
+      [b1 = sum (mul b2 q) r] and [q >= 0] is maximal. *)
+
   val inter: t -> t -> t
   (** [inter b1 b2] returns a new bag [b] where, for all element x,
       [occ x b = min (occ x b1) (occ x b2)]. *)
@@ -225,12 +234,12 @@ end) : sig
       updated by the result of the application of [f] to [m].
       The elements are passed to [f] in increasing order
       with respect to the ordering over the type of the elements.
-      Raises [Invalid_argument] if [f] returns a negative value. *)
+      Raises [Invalid_argument] if [f] returns a nonpositive value. *)
 
   val mapi: (elt -> int -> int) -> t -> t
   (** Same as {!Bag.map}, but the function receives as arguments both the
       element and the associated multiplicity.
-      Raises [Invalid_argument] if [f] returns a negative value. *)
+      Raises [Invalid_argument] if [f] returns a nonpositive value. *)
 
   val compare: t -> t -> int
   (** Total ordering between bags. *)
@@ -255,5 +264,7 @@ end) : sig
   val of_seq: (elt * int) Seq.t -> t
   (** Builds a bag from the given elements and multiplicities.
       Raises [Invalid_argument] if a multiplicity is negative. *)
+
+  val print: (Format.formatter -> X.t -> unit) -> Format.formatter -> t -> unit
 
 end

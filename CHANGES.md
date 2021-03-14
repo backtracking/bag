@@ -1,5 +1,5 @@
 
-  - added `mul` and `div`
+  - added `mul`, `div`, `divi`
   - added `print`
   - fixed code and doc of `map` and `mapi` (now fails if `f` returns 0)
   - improved documentation: applicative data type / complexity

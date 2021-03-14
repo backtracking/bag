@@ -156,6 +156,11 @@ end) : sig
   (** [div b1 b2] returns a pair [q, r] such that
       [b1 = sum (mul b2 q) r] and [q >= 0] is maximal. *)
 
+  val divi: t -> int -> t * t
+  (** [divi b n] returns a pair [q, r] such that
+      [b = sum (mul q n) r] and multiplicities in [r] are smaller than [n].
+      Raises [Invalid_argument] is [n] is nonpositive. *)
+
   val inter: t -> t -> t
   (** [inter b1 b2] returns a new bag [b] where, for all element x,
       [occ x b = min (occ x b1) (occ x b2)]. *)

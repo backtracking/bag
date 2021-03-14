@@ -191,6 +191,11 @@ end) = struct
     with Exit ->
       0, b1
 
+  let divi b n =
+    if n <= 0 then invalid_arg "divi";
+    let update x m (q, r) = add ~mult:(m / n) x q, add ~mult:(m mod n) x r in
+    fold update b (empty, empty)
+
   let compare =
     M.compare Stdlib.compare
 

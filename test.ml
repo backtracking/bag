@@ -79,7 +79,13 @@ let test n =
   let q, r = B.div !b1 !b2 in
   (* Format.printf "b1 = %a / b2 = %a@." print !b1 print !b2;
    * Format.printf "q = %d / r = %a@." q print r; *)
-  assert (B.equal !b1 (B.sum (B.mul !b2 q) r))
+  assert (B.equal !b1 (B.sum (B.mul !b2 q) r));
+  let q, r = B.divi !b1 1 in
+  assert (B.equal q !b1 && B.is_empty r);
+  for k = 2 to 5 do
+    let q, r = B.divi !b1 k in
+    assert (B.equal !b1 (B.sum (B.mul q k) r))
+  done
 
 let () =
   for n = 0 to 10 do test n done

@@ -13,6 +13,12 @@
 (*                                                                        *)
 (**************************************************************************)
 
+(* TODO
+   - suggested by SpiceGuid on discuss.ocaml.org:
+     - val mul : t -> int -> t
+     - val div : t -> t -> (int * t)
+*)
+
 module Make(X: sig
   type t
   val compare: t -> t -> int

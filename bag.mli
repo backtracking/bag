@@ -18,8 +18,13 @@
     A bag is merely a map that binds each element to its multiplicity
     in the bag (see function [occ] below).
 
-    Caveat: Bags are internally implemented with AVLs (from module [Map])
-    and thus there is no unicity of representation. Consequently, the
+    All operations over bags are purely applicative (no side-effects).
+    Bags are internally implemented with AVLs (from module [Map])
+    and consequently operations such as [occ], [mem], [add], or [remove]
+    take time logarithmic in the size (i.e. number of distinct elements)
+    of the bag.
+
+    Caveat: There is no unicity of representation. Consequently, the
     polymorphic equality [(=)] must not be used on bags. Functions
     [compare] and [equal] are provided to compare bags.
 
